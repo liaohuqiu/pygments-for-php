@@ -1,3 +1,4 @@
+#! /usr/bin/env python
 import sys
 import cubi.engine as engine
 import cubi.logger as logger
