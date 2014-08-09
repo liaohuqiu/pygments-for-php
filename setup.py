@@ -6,7 +6,9 @@ setup(
     keywords = ('pygments-cube-server', 'cube-rpc', 'cubi', 'cube-rpc'),
     description = 'pygments RPC server based on cubi RPC protocol',
     license = 'MIT License',
-    install_requires = ['cubi', 'pygments'],
+    install_requires = ['cubi>=0.0.5', 'pygments', 'keep-running'],
+
+    scripts = ['cubi-pygments-server', 'cubi-pygments-server-test'],
 
     author = 'http://www.liaohuqiu.net',
     author_email = 'liaohuqiu@gmail.com',

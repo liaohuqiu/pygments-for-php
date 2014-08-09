@@ -11,18 +11,28 @@ from pygments import highlight
 
 class PygmentServant(Servant):
 
+    def _init(self, engine, adapter):
+        fmter = HtmlFormatter(nowrap=True)
+        fmter.encoding = 'ascii'
+        self.fmter = fmter
+        self._lexer_list = {}
+        pass
+
+    def _get_lexer(self, lang):
+        if lang not in self._lexer_list:
+            lexer = get_lexer_by_name(lang)
+            lexer.encoding = 'ascii'
+            self._lexer_list[lang] = lexer
+        return self._lexer_list[lang]
+
     @params.extract_args
     def highlight(self, lang, code):
 
-        logger.get_logger().debug("highlight: %s %s", lang, code)
+        # if self.debug and logger.is_debug():
+        #     logger.get_logger().debug("highlight: %s %s", lang, code)
 
-        lexer = get_lexer_by_name(lang)
-        fmter = HtmlFormatter(nowrap=True)
-
-        lexer.encoding = 'ascii'
-        fmter.encoding = 'ascii'
-
-        html = highlight(code, lexer, fmter)
+        lexer = self._get_lexer(lang)
+        html = highlight(code, lexer, self.fmter)
 
         result = {}
         result['data'] = html;
@@ -30,7 +40,7 @@ class PygmentServant(Servant):
 
 if __name__ == '__main__':
 
-    logger.enable_debug_log()
+    # logger.enable_debug_log()
 
     endp = "pygments@tcp::2016"
     setting = {}
